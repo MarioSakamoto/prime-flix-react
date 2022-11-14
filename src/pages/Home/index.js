@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
 import api from '../../services/api';
+import { Link } from 'react-router-dom';
+import './home.css';
 
 function Home(){
     const[filmes, setFilmes] = useState([]);
@@ -15,7 +17,8 @@ function Home(){
                 }
             })
 
-            console.log(response.data.results);
+            //console.log(response.data.results.slice(0,10));
+            setFilmes(response.data.results.slice(0, 10))
 
         }
 
@@ -23,8 +26,18 @@ function Home(){
     }, [])
 
     return(
-        <div>
-            <h1>BEM VINDO A HOME</h1>
+        <div className="container">
+            <div className="lista-filmes">
+            {filmes.map((filmes) => {
+                return(
+                    <article key={filme.id}>
+                        <strong>{filmes.title}</strong>
+                        <img src={`https://image.tmdb.org/t/p/original/${filme.poster_path}`} alt={filme.title} />
+                        <Link to={`/filme/${filme.id}`}>Acessar</Link>
+                    </article>
+                )
+            })}
+           </div>
         </div>
     )
 }
